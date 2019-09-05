@@ -1,130 +1,204 @@
-# Tailwind Traders Website
+# IDCF 黑客马拉松示例项目 TailwindTraders Web前端项目 部署文档
 
-![Tailwind Traders Website](Documents/Images/Website.png)
+本文档提供部署说明，请严格按照说明进行部署。
 
-[![Build status](https://dev.azure.com/TailwindTraders/Website/_apis/build/status/Website-CI)](https://dev.azure.com/TailwindTraders/Website/_build?definitionId=22)
+## 部署前提条件
 
-You can take a look at our live running website following this address: [https://tailwindtraders.com](https://tailwindtraders.com) 
+请确保你已经获取了以下信息和环境，以便完成此项目的部署
 
-# Repositories
+1. 微软账号：微软账号为 @outlook.com @hotmail.com @live.cn 结尾的邮件地址
+2. 黑客松组委会已经将你的微软账号加入对应的 Microsoft Teams, Azure DevOps 以及 Azure 管理控制台，并给你赋予了足够的权限
+3. 如果需要进行本地开发调试，请确保提前安装以下软件，您可以在Windows/Mac/Linux环境中安装以下软件，所有软件均提供跨平台版本，请确保通过官方渠道安装以下软件
 
-For this demo reference, we built several consumer and line-of-business applications and a set of backend services. You can find all repositories in the following locations:
+  - Visual Studio Code
+  - PowerShell
+  - Azure CLI
+  - .Net Core 2.2
+  - Git
 
-* [Tailwind Traders](https://github.com/Microsoft/TailwindTraders)
-* [Backend (AKS)](https://github.com/Microsoft/TailwindTraders-Backend)
-* [Website (ASP.NET & React)](https://github.com/Microsoft/TailwindTraders-Website)
-* [Desktop (WinForms & WPF -.NET Core)](https://github.com/Microsoft/TailwindTraders-Desktop)
-* [Rewards (ASP.NET Framework)](https://github.com/Microsoft/TailwindTraders-Rewards)
-* [Mobile (Xamarin Forms 4.0)](https://github.com/Microsoft/TailwindTraders-Mobile)
+## 部署步骤
 
-# Deploy to Azure
+    **注意：以下操作需要一个人独立完成，不可多人同时操作，否则会造成冲突**
 
-With the following ARM template you can automate the creation of the resources for this website.
+### Step 1.1 - Fork本代码库
 
-[![Deploy to Azure](Documents/Images/deploy-to-azure.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FTailwindTraders-Website%2Fmaster%2FDeploy%2Fdeployment.json)
+请在自己团队中协调，使用一名组员自己的GitHub账号作为小组共有环境，并将此repo fork到这个账号中。
 
-When you deploy this website to Azure you can define the [Backend](https://github.com/Microsoft/TailwindTraders-Backend) you want to use in case you have deploy your own backend. By defaults it is configured the public Backend environment provided by Microsoft.
+### Step 1.2 - 获取流水线配置文件
 
-> Note: you can change the InstrumentationKey of the **Application Insight** that is configured by default.
+从本repo的 /Deploy/pipeline 目录下载以下文件
 
-# Deploy as part of AKS (Azure Kubernetes Service)
+- Website-CI.json
+- Website-CD.json
 
-Please follow these steps to deploy the web in the same AKS where Backend is running instead of deploying to an App Service.
+这两个文件包括全部流水线的主要配置，在后续步骤中将会用到。
 
-**Note**: Website supports [Devspaces deployment](./Documents/Devspaces.md).
+### Step 2.1 - 导入Build配置文件
 
-## Pre-Requisites:
+使用自己的微软账号登录自己团队的Azure DevOps项目，进入 Pipelines | Builds 并点击 New | Import a Pipeline
 
-1. **You must have an AKS with all the Tailwind Traders Backend Up & Running**. Please follow the instructions on [Tailwind Traders Backend repo](https://github.com/Microsoft/TailwindTraders-Backend/) to deploy the backend on AKS.
+![](/Documents/Images/hack/website-build-01.png)
 
-1. **You can't install the web on a AKS Before installing the Backend on it**. This is because some configuration steps that are done when installing the Backend are needed.
+在弹出的对话框中选择 Website-CI.json 文件，并导入
 
-> Note: This document assumes you have the backend installed on an AKS and the `kubectl` is configured against this cluster.
+![](/Documents/Images/hack/website-build-02.png)
 
-## Build and push the docker image
+### Step 2.2 - 构建代理服务和构建代码源配置
 
-You need to build & push the docker image for the web. You can use `docker-compose` for this task. You **must set two environment variables** before launching compose:
+在Pipeline设置中选择Azure Pipeline作为Agent Pool，Ubuntu 16.04 作为Agent Specification
 
-* `TAG`: Tag to use for the generated docker image.
-* `REPOSITORY`: Must be the login server of the ACR where Backend is installed.
+![](/Documents/Images/hack/website-build-03.png)
 
-Then you need to login into the ACR by typing: `docker login -u <username> -p <password> <acr-login-server>` where `<username>` and `<password>` are the ACR credentials.
+在Get Sources设置中选择Github作为代码源，并点击 New Service Connection 创建一个新的指向到本组的Github账号的service connection。
 
-Once logged in ACR you can build the web:
+![](/Documents/Images/hack/website-build-04.png)
 
-```
-docker-compose build
-```
+使用新创建的service connection获取Github中的repo列表，并选择TailwindTraders-Backend作为本构建的代码源，并选择 master 分支。
 
-And then you can push the images in ACR:
+![](/Documents/Images/hack/website-build-05.png)
 
-```
-docker-compose push
-```
+### Step 2.3 - 构建步骤配置
 
-## Deploy the image on the cluster using Helm
+选择 Azure Deployment...步骤，并设置Azure Subscirption为分配给本组的订阅（注意订阅名称中包含的组别信息）
 
-To deploy the web on the AKS you can use the `DeployWebAKS.ps1` script in `/Deploy` folder. This script have following parameters:
+![](/Documents/Images/hack/website-build-06.png)
 
-* `-aksName`: Name of the AKS (same AKS where Backend is)
-* `-resourceGroup`: Resource group of the AKS
-* `-acrName`: ACR where image is pushed. Has to be the same ACR where Backend images are.
-* `-tag`: Tag to use for the Docker image of the Web
-* `-valueSFile`: YAML files containing the values. Defaults to `gvalues.yaml`. You can use the provided `gvalues.yaml` as-is, so don't need to specify this parameter.
-* `-tlsEnv`: TLS environment (staging or prod) that is installed in the cluster. Refer to the Backend repo for more information.
+选择 ARM Outputs...步骤，并设置Azure Subscirption为分配给本组的订阅（注意订阅名称中包含的组别信息）
 
-To install the web in AKS my-aks using production TLS certificates, located in resource group my-rg and using an ACR named `my-acr` you can type:
+![](/Documents/Images/hack/website-build-07.png)
 
-```
-.\DeployImagesAKS.ps1 -aksName my-aks -resourceGroup my-rg -acrName my-acr -tag latest -tlsEnv prod
-```
+选择 Build an image...步骤，并设置Azure Subscirption为分配给本组的订阅（注意订阅名称中包含的组别信息）
 
-# How to use the product search by photo
+![](/Documents/Images/hack/website-build-08.png)
 
-To use the product search, we need to upload a photo, the website redirects to suggested products showing 3 products or less, except if only suggest 1 product. When you have only 1 suggested product, the website redirects to detail of product.
+选择 Push an image...步骤，并设置Azure Subscirption为分配给本组的订阅（注意订阅名称中包含的组别信息）
 
-Steps to search:
+![](/Documents/Images/hack/website-build-09.png)
 
-1. In home of the website, click in the "Start smart shopping" button.
+### Step 2.4 - 保存构建并触发CI
 
-![Start Smart Shopping Button](Documents/Images/Docs/Start_Smart_Shopping_Button.PNG)
+点击顶部的构建名称并修改成Website-CI，点击 Save & queue 按钮保存并触发构建
 
-2. Select a photo to upload and send it.
-    * If website has more than 1 suggested products
-        * Website redirect to suggested products.
-    * If website has only a one suggested product.
-        * Website redirects to details of product.
+![](/Documents/Images/hack/website-build-10.png)
 
-To use this search, you can use the images in:
+在弹出的对话框右下角点击 Save and run
 
-* [Documents/Images/TestImages](Documents/Images/TestImages)
+![](/Documents/Images/hack/website-build-11.png)
 
+### Step 2.5 - 监控构建进度
 
-### Rechargable screwdriver sample
-If you select the [Electric Screwdriver](Documents/Images/TestImages/electric_screwdriver.jpg) should be appears 3 suggested products similar to:
+在构建运行界面查看构建进展
 
-![Rechargeable Screwdriver Suggested Products](Documents/Images/Docs/rechargeable_Screwdriver_Suggested_Products.PNG)
+![](/Documents/Images/hack/website-build-12.png)
 
-### Multi-tool plier sample
-If you select the [Multi-Tool Plier](Documents/Images/TestImages/multi-tool_plier.jpg) should be appears 3 suggested products similar to:
+**以下步骤需要等待构建完成方可继续。**
 
-![Multi-Tool Plier Suggested Products](Documents/Images/Docs/multi-tool_plier_Suggested_Products.PNG)
+### Step 3.1 - 导入Release配置
 
-### Hard hat sample
-If you select the [Hard Hat](Documents/Images/TestImages/hard_hat.jpg) should be redirect to product detail, beacuse only have a 1 suggested product:
+切换到Pipeline | Release，并点击 New | Import release pipeline
 
-![Hard Hat Suggested Product Detail](Documents/Images/Docs/hard_Hat_Suggested_Product_Detail.PNG)
+![](/Documents/Images/hack/website-release-01.png)
 
-# Contributing
+在弹出的对话框选择 Website-CD.json 并导入
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
+### Step 3.2 - 配置需要进行部署的制品(artifact))版本
 
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+点击 Add an artifact 按钮
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+![](/Documents/Images/hack/website-release-02.png)
+
+在弹出的对话框中选择以上步骤中创建的Website-CI构建配置作为制品来源，同时选择latest作为制品版本，点击 Add
+
+![](/Documents/Images/hack/website-release-03.png)
+
+### Step 3.3 - 配置部署步骤
+
+点击 Dev 阶段中的告警信息进入此阶段的部署步骤配置
+
+![](/Documents/Images/hack/website-release-04.png)
+
+选择 Azure Pipeline | vs2017-win2016 作为 Agent Job 配置
+
+![](/Documents/Images/hack/website-release-05.png)
+
+选择 Azure CLI...步骤，并设置Azure Subscirption为分配给本组的订阅（注意订阅名称中包含的组别信息）
+
+![](/Documents/Images/hack/website-release-06.png)
+
+选择 Deploy Container ...步骤，并设置Azure Subscirption为分配给本组的订阅（注意订阅名称中包含的组别信息），同时选择 App Service name 下拉菜单中唯一的选项
+
+![](/Documents/Images/hack/website-release-07.png)
+
+选择 Restart Azure App Service ...步骤，并设置Azure Subscirption为分配给本组的订阅（注意订阅名称中包含的组别信息），同时选择 App Service name 下拉菜单中不含func关键字的选项
+
+![](/Documents/Images/hack/website-release-08.png)
+
+### Step 3.4 - 配置部署变量
+
+进入Azure Portal (https://portal.azure.com) 获取容器注册表相关信息，在Azure Portal中选择 **资源组 | TailwindTraderWeb | 容器注册表**
+
+![](/Documents/Images/hack/website-release-09.png)
+
+进入 **访问密钥** 页面获取右侧所有信息，备用。
+
+![](/Documents/Images/hack/website-release-10.png)
+
+回到 Azure DevOps 的部署流水线配置中的 Variable 页面，按照从 Azure Portal中获取的信息填写以下变量
+
+  - ACR_LoginServer：注册表名称
+  - ACR_PASSWORD: 注册表password
+  - ACR_USERNAME: 用户名
+  - appservice-name：从步骤3.3中复制App Service name
+
+![](/Documents/Images/hack/website-release-11.png)
+
+### Step 3.5 - 保存触发并监控进度
+
+完成修改后点击 Create release 按钮触发部署
+
+![](/Documents/Images/hack/website-release-12.png)
+
+在弹出的对话框中选择Create
+
+![](/Documents/Images/hack/website-release-13.png)
+
+等待一段时间后部署启动，可以通过点击 logs 查看日志
+
+![](/Documents/Images/hack/website-release-14.png)
+
+**等待部署成功后进行后续步骤。**
+
+### Step 4.1 - 获取后台应用API地址
+
+进入**Azure Portal | 资源组 | TailwindTradersBackend** 并点击 **Kubernetes 服务**
+
+![](/Documents/Images/hack/azure-config-01.png)
+
+获取 **HTTP应用程序路由域 **字段的值
+
+![](/Documents/Images/hack/azure-config-02.png)
+
+### Step 4.2 - 更新Web应用程序配置，指向以上获取的HTTP应用程序路由域地址
+
+进入**Azure Portal | 资源组 | TailwindTradersWeb* 并点击 **应用服务**
+
+![](/Documents/Images/hack/azure-config-03.png)
+
+进入 **配置** 页面，点击 **显示值** 并更新以下地址
+
+  - ApiUrl = https://[HTTP应用程序路由域]/webbff/v1
+  - ApiUrlShoppingCart = https://[HTTP应用程序路由域]/cart-api
+
+![](/Documents/Images/hack/azure-config-04.png)
+
+### Step 5 - 测试站点工作正常
+
+通过 **应用服务** 的页面获取网站地址
+
+![](/Documents/Images/hack/azure-config-05.png)
+
+点击以上 URL 即可访问站点
+
+![](/Documents/Images/hack/running-website.png)
+
+***恭喜，部署完成！***
