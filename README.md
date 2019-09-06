@@ -10,11 +10,12 @@
 2. 黑客松组委会已经将你的微软账号加入对应的 Microsoft Teams, Azure DevOps 以及 Azure 管理控制台，并给你赋予了足够的权限
 3. 如果需要进行本地开发调试，请确保提前安装以下软件，您可以在Windows/Mac/Linux环境中安装以下软件，所有软件均提供跨平台版本，请确保通过官方渠道安装以下软件
 
-  - Visual Studio Code
-  - PowerShell
-  - Azure CLI
-  - .Net Core 2.2
-  - Git
+- [Azure CLI](https://docs.azure.cn/zh-cn/cli/install-azure-cli?view=azure-cli-latest)
+- [PowerShell](https://github.com/PowerShell/PowerShell)
+- [Helm](https://helm.sh/)
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [Git](https://git-scm.com/)
+- [.Net Core 2.2](https://docs.microsoft.com/zh-cn/dotnet/core/)
 
 ## 部署步骤
 
