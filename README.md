@@ -17,23 +17,30 @@ Windows 环境
 
 如果需要进行本地开发调试，请确保提前安装以下软件，您可以在Windows环境中安装以下软件
 
+TIP: **请按照此顺序安装**
+
+- Windows 10 1903 以上版本
+  - 老版本Windows也可以使用，但可能遇到未知问题
 - [Cmder](https://cmder.net/)
   - 替换Windows内置的命令行，提供复制粘贴，多窗口管理和Linux常用命令行工具集成
+  - 请下载完整版
 - [Azure CLI](https://docs.azure.cn/zh-cn/cli/install-azure-cli?view=azure-cli-latest)
   - 提供针对Azure云环境的命令行访问
+  - 请使用最新版
 - [PowerShell](https://github.com/PowerShell/PowerShell)
   - 如果使用Windows 10以上版本不需要安装
   - 如果使用Windows 10以下版本请更新到PowerShell最新版
 - [Git](https://git-scm.com/)
   - Git版本控制工具
+  - 请使用最新版
 - [.Net Core 2.2](https://docs.microsoft.com/zh-cn/dotnet/core/)
   - 应用使用.net core 2.2作为开发语言sdk
+- [Node.JS](https://nodejs.org)
+  - 请使用LTS版本
 - [Visual Studio Code](https://code.visualstudio.com/)
   - 最好用的代码编辑器，没有之一
 
 MacOS和Linux桌面环境
-
-
 
 ## 部署步骤
 
