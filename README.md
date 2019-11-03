@@ -6,16 +6,34 @@
 
 请确保你已经获取了以下信息和环境，以便完成此项目的部署
 
+基础环境需求
+
 1. 微软账号：微软账号为 @outlook.com @hotmail.com @live.cn 结尾的邮件地址
 2. 黑客松组委会已经将你的微软账号加入对应的 Microsoft Teams, Azure DevOps 以及 Azure 管理控制台，并给你赋予了足够的权限
-3. 如果需要进行本地开发调试，请确保提前安装以下软件，您可以在Windows/Mac/Linux环境中安装以下软件，所有软件均提供跨平台版本，请确保通过官方渠道安装以下软件
 
+本地调试需求
+
+Windows 环境
+
+如果需要进行本地开发调试，请确保提前安装以下软件，您可以在Windows环境中安装以下软件
+
+- [Cmder](https://cmder.net/)
+  - 替换Windows内置的命令行，提供复制粘贴，多窗口管理和Linux常用命令行工具集成
 - [Azure CLI](https://docs.azure.cn/zh-cn/cli/install-azure-cli?view=azure-cli-latest)
+  - 提供针对Azure云环境的命令行访问
 - [PowerShell](https://github.com/PowerShell/PowerShell)
-- [Helm](https://helm.sh/)
-- [Visual Studio Code](https://code.visualstudio.com/)
+  - 如果使用Windows 10以上版本不需要安装
+  - 如果使用Windows 10以下版本请更新到PowerShell最新版
 - [Git](https://git-scm.com/)
+  - Git版本控制工具
 - [.Net Core 2.2](https://docs.microsoft.com/zh-cn/dotnet/core/)
+  - 应用使用.net core 2.2作为开发语言sdk
+- [Visual Studio Code](https://code.visualstudio.com/)
+  - 最好用的代码编辑器，没有之一
+
+MacOS和Linux桌面环境
+
+
 
 ## 部署步骤
 
