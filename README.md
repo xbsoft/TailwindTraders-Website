@@ -86,18 +86,22 @@ MacOS和Linux桌面环境
 ### Step 2.3 - 构建步骤配置
 
 选择 Azure Deployment...步骤，并设置Azure Subscirption为分配给本组的订阅（注意订阅名称中包含的组别信息）
+**注意：这次使用的订阅是类似 Visual Studio Enterprise – MPN (IDCF X) 的订阅名称**
 
 ![](/Documents/Images/hack/website-build-06.png)
 
 选择 ARM Outputs...步骤，并设置Azure Subscirption为分配给本组的订阅（注意订阅名称中包含的组别信息）
+**注意：这次使用的订阅是类似 Visual Studio Enterprise – MPN (IDCF X) 的订阅名称**
 
 ![](/Documents/Images/hack/website-build-07.png)
 
 选择 Build an image...步骤，并设置Azure Subscirption为分配给本组的订阅（注意订阅名称中包含的组别信息）
+**注意：这次使用的订阅是类似 Visual Studio Enterprise – MPN (IDCF X) 的订阅名称**
 
 ![](/Documents/Images/hack/website-build-08.png)
 
 选择 Push an image...步骤，并设置Azure Subscirption为分配给本组的订阅（注意订阅名称中包含的组别信息）
+**注意：这次使用的订阅是类似 Visual Studio Enterprise – MPN (IDCF X) 的订阅名称**
 
 ![](/Documents/Images/hack/website-build-09.png)
 
