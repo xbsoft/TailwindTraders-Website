@@ -89,25 +89,25 @@ MacOS和Linux桌面环境
 
 选择 Azure Deployment...步骤，并设置Azure Subscirption为分配给本组的订阅（注意订阅名称中包含的组别信息）
 
-**注意：请注意本次所使用的云订阅是 [IDCF X] 或者 [HACK X] 。**
+**注意：请注意和讲师确认本次所使用的云订阅是 [IDCF X] 或者 [HACK X] 。**
 
 ![](/Documents/Images/hack/website-build-06.png)
 
 选择 ARM Outputs...步骤，并设置Azure Subscirption为分配给本组的订阅（注意订阅名称中包含的组别信息）
 
-**注意：请注意本次所使用的云订阅是 [IDCF X] 或者 [HACK X] 。**
+**注意：请注意和讲师确认本次所使用的云订阅是 [IDCF X] 或者 [HACK X] 。**
 
 ![](/Documents/Images/hack/website-build-07.png)
 
 选择 Build an image...步骤，并设置Azure Subscirption为分配给本组的订阅（注意订阅名称中包含的组别信息）
 
-**注意：请注意本次所使用的云订阅是 [IDCF X] 或者 [HACK X] 。**
+**注意：请注意和讲师确认本次所使用的云订阅是 [IDCF X] 或者 [HACK X] 。**
 
 ![](/Documents/Images/hack/website-build-08.png)
 
 选择 Push an image...步骤，并设置Azure Subscirption为分配给本组的订阅（注意订阅名称中包含的组别信息）
 
-**注意：请注意本次所使用的云订阅是 [IDCF X] 或者 [HACK X] 。**
+**注意：请注意和讲师确认本次所使用的云订阅是 [IDCF X] 或者 [HACK X] 。**
 
 ![](/Documents/Images/hack/website-build-09.png)
 
