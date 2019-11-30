@@ -206,6 +206,8 @@ MacOS和Linux桌面环境
 
 ### Step 4.1 - 获取后台应用API地址
 
+**注意：因为采用了前后端分离方式，前端网站仅通过2个独立的Api Gateway地址访问后端服务；后端服务也进对外暴露Api Gateway。因此你需要获取后端服务的Api Gateway地址并更新到前端网站的API连接配置中，这样前后端才能开始通讯。**
+
 进入**Azure Portal | 资源组 | TailwindTradersBackend** 并点击 **Kubernetes 服务**
 
 ![](/Documents/Images/hack/azure-config-01.png)
