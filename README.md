@@ -46,6 +46,8 @@ MacOS和Linux桌面环境
 
     **注意：以下操作需要一个人独立完成，不可多人同时操作，否则会造成冲突**
 
+    **重要说明：本文档使用2组不同的Azure云订阅，请和讲师确认当前所使用的云订阅是哪一组。两组云订阅分别使用 [HACK X] 或者 [IDCF X] 作为标识。**
+
 ### Step 1.1 - Fork本代码库
 
 请在自己团队中协调，使用一名组员自己的GitHub账号作为小组共有环境，并将此repo fork到这个账号中。
@@ -86,22 +88,26 @@ MacOS和Linux桌面环境
 ### Step 2.3 - 构建步骤配置
 
 选择 Azure Deployment...步骤，并设置Azure Subscirption为分配给本组的订阅（注意订阅名称中包含的组别信息）
-**注意：这次使用的订阅是类似 Visual Studio Enterprise – MPN (IDCF X) 的订阅名称**
+
+**注意：请注意本次所使用的云订阅是 [IDCF X] 或者 [HACK X] 。**
 
 ![](/Documents/Images/hack/website-build-06.png)
 
 选择 ARM Outputs...步骤，并设置Azure Subscirption为分配给本组的订阅（注意订阅名称中包含的组别信息）
-**注意：这次使用的订阅是类似 Visual Studio Enterprise – MPN (IDCF X) 的订阅名称**
+
+**注意：请注意本次所使用的云订阅是 [IDCF X] 或者 [HACK X] 。**
 
 ![](/Documents/Images/hack/website-build-07.png)
 
 选择 Build an image...步骤，并设置Azure Subscirption为分配给本组的订阅（注意订阅名称中包含的组别信息）
-**注意：这次使用的订阅是类似 Visual Studio Enterprise – MPN (IDCF X) 的订阅名称**
+
+**注意：请注意本次所使用的云订阅是 [IDCF X] 或者 [HACK X] 。**
 
 ![](/Documents/Images/hack/website-build-08.png)
 
 选择 Push an image...步骤，并设置Azure Subscirption为分配给本组的订阅（注意订阅名称中包含的组别信息）
-**注意：这次使用的订阅是类似 Visual Studio Enterprise – MPN (IDCF X) 的订阅名称**
+
+**注意：请注意本次所使用的云订阅是 [IDCF X] 或者 [HACK X] 。**
 
 ![](/Documents/Images/hack/website-build-09.png)
 
@@ -125,7 +131,7 @@ MacOS和Linux桌面环境
 
 ### Step 3.1 - 导入Release配置
 
-切换到Pipeline | Release，并点击 New | Import release pipeline
+切换到 **Pipeline | Release**，并点击 **New | Import release pipeline**
 
 ![](/Documents/Images/hack/website-release-01.png)
 
@@ -133,7 +139,7 @@ MacOS和Linux桌面环境
 
 ### Step 3.2 - 配置需要进行部署的制品(artifact))版本
 
-点击 Add an artifact 按钮
+点击 **Add an artifact** 按钮
 
 ![](/Documents/Images/hack/website-release-02.png)
 
@@ -147,7 +153,7 @@ MacOS和Linux桌面环境
 
 ![](/Documents/Images/hack/website-release-04.png)
 
-选择 Azure Pipeline | vs2017-win2016 作为 Agent Job 配置
+选择 **Azure Pipeline | vs2017-win2016** 作为 Agent Job 配置
 
 ![](/Documents/Images/hack/website-release-05.png)
 
@@ -175,8 +181,8 @@ MacOS和Linux桌面环境
 
 回到 Azure DevOps 的部署流水线配置中的 Variable 页面，按照从 Azure Portal中获取的信息填写以下变量
 
-  - ACR_LoginServer：注册表名称
-  - ACR_PASSWORD: 注册表password
+  - ACR_LoginServer：登录服务器
+  - ACR_PASSWORD: 注册表password (任选password或者password2均可)
   - ACR_USERNAME: 用户名
   - appservice-name：从步骤3.3中复制App Service name
 
@@ -204,13 +210,13 @@ MacOS和Linux桌面环境
 
 ![](/Documents/Images/hack/azure-config-01.png)
 
-获取 **HTTP应用程序路由域 **字段的值
+获取 **HTTP应用程序路由域** 字段的值
 
 ![](/Documents/Images/hack/azure-config-02.png)
 
 ### Step 4.2 - 更新Web应用程序配置，指向以上获取的HTTP应用程序路由域地址
 
-进入**Azure Portal | 资源组 | TailwindTradersWeb* 并点击 **应用服务**
+进入**Azure Portal | 资源组 | TailwindTradersWeb** 并点击 **应用服务**
 
 ![](/Documents/Images/hack/azure-config-03.png)
 
